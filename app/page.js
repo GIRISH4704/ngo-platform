@@ -1,31 +1,5 @@
 import Link from "next/link";
-
-const events = [
-  {
-    id: 1,
-    title: "Marina Beach Cleanup",
-    category: "Cleanup",
-    location: "Marina Beach, Chennai",
-    date: "April 12, 2026",
-    spots: 20,
-  },
-  {
-    id: 2,
-    title: "Book Donation Drive",
-    category: "Education",
-    location: "Adyar, Chennai",
-    date: "April 15, 2026",
-    spots: 10,
-  },
-  {
-    id: 3,
-    title: "Tree Planting Drive",
-    category: "Environment",
-    location: "Cubbon Park, Chennai",
-    date: "April 18, 2026",
-    spots: 30,
-  },
-];
+import { supabase } from "@/lib/supabase";
 
 const categoryColors = {
   Cleanup: "bg-blue-100 text-blue-700",
@@ -33,7 +7,14 @@ const categoryColors = {
   Environment: "bg-green-100 text-green-700",
 };
 
-export default function Home() {
+export default async function Home() {
+  const { data: events, error } = await supabase.from("events").select("*");
+
+  if (error) {
+    console.error(error);
+    return <p>Failed to load events.</p>;
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Navbar */}
@@ -72,7 +53,7 @@ export default function Home() {
               className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition"
             >
               <span
-                className={`text-xs font-semibold px-2 py-1 rounded-full ${categoryColors[event.category]}`}
+                className={`text-xs font-semibold px-2 py-1 rounded-full ${categoryColors[event.category] || "bg-gray-100 text-gray-700"}`}
               >
                 {event.category}
               </span>
