@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import Navbar from "@/app/components/Navbar";
+import JoinButton from "@/app/components/JoinButton";
 
 const categoryColors = {
   Cleanup: "bg-blue-100 text-blue-700",
@@ -31,20 +33,8 @@ export default async function EventPage({ params }) {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Navbar */}
-      <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <span className="text-2xl font-bold text-green-600">🪸 Plankton</span>
-        <div className="flex gap-4 text-sm text-gray-600">
-          <Link href="/" className="hover:text-green-600">
-            Home
-          </Link>
-          <Link href="/events" className="hover:text-green-600">
-            Events
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
-      {/* Event Detail */}
       <section className="max-w-2xl mx-auto px-6 py-12">
         <Link href="/" className="text-sm text-green-600 hover:underline">
           ← Back to Events
@@ -75,9 +65,7 @@ export default async function EventPage({ params }) {
             🧑 Organizer: <span className="font-medium">{event.organizer}</span>
           </p>
 
-          <button className="w-full bg-green-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-green-700 transition">
-            Join This Event
-          </button>
+          <JoinButton eventId={event.id} />
         </div>
       </section>
     </main>
